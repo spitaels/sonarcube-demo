@@ -66,7 +66,7 @@ class TestInventoryItem:
         assert item.sku == "SKU1"
         assert item.name == "Widget"
         assert item.quantity == 0
-        assert item.price == 0.0
+        assert item.price == pytest.approx(0.0)
 
     def test_empty_sku_raises_value_error(self):
         with pytest.raises(ValueError):
@@ -213,10 +213,6 @@ class TestReporting:
         inventory.add_item(InventoryItem(sku="C", name="Item C", quantity=0,  price=20.0, low_stock_threshold=1))
 
     def test_total_inventory_value(self):
-        # A: 10 * 1.0 = 10
-        # B: 2 * 5.0  = 10
-        # C: 0 * 20.0 = 0
-        # total = 20
         assert self.inventory.total_inventory_value() == pytest.approx(20.0)
 
     def test_total_inventory_value_with_empty_inventory(self):
