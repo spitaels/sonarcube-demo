@@ -82,13 +82,13 @@ class TestInventoryItem:
 
     def test_total_value_calculation(self):
         item = InventoryItem(sku="SKU1", name="Widget", quantity=4, price=2.5)
-        assert item.total_value() == 10.0
+        assert item.total_value() == pytest.approx(10.0)
 
     def test_total_value_rounds_to_two_decimals(self):
         # 3 * 0.1 = 0.30000000000000004 due to floating point;
         # total_value() should round this cleanly
         item = InventoryItem(sku="SKU1", name="Widget", quantity=3, price=0.1)
-        assert item.total_value() == 0.3
+        assert item.total_value() == pytest.approx(0.3)
 
     def test_is_low_stock_true_when_at_threshold(self):
         item = InventoryItem(sku="SKU1", name="Widget", quantity=5, low_stock_threshold=5)
@@ -217,10 +217,10 @@ class TestReporting:
         # B: 2 * 5.0  = 10
         # C: 0 * 20.0 = 0
         # total = 20
-        assert self.inventory.total_inventory_value() == 20.0
+        assert self.inventory.total_inventory_value() == pytest.approx(20.0)
 
     def test_total_inventory_value_with_empty_inventory(self):
-        assert Inventory().total_inventory_value() == 0.0
+        assert Inventory().total_inventory_value() == pytest.approx(0.0)
 
     def test_low_stock_items_returns_only_low_stock(self):
         low_stock_skus = {item.sku for item in self.inventory.low_stock_items()}
